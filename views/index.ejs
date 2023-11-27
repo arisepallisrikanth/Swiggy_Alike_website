@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='/styles/main.css'/>
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        #orderplc{
+            background-color: pink;
+            width: 1000px;
+            height: 200px;
+            border-radius: 40%;
+            display: none;
+
+        }
+    </style>
+    <% if(locals.ordered){ %>
+       <div style="margin:400px;">
+        <h1>Your order is Placed</h1>
+        <h2>Thank you! Explore and taste more items</h2>
+    </div>
+    <% } else{
+   if(!(locals.foodmenu)){ 
+        if(locals.OnlineRestr){
+        var Restaurants=onlineRestaurants
+        
+        
+    }%><div class='container' style="display: flex; ">
+    <div class="Restaurants" style="flex: 20;">
+     <% Restaurants.map(Restaurant=>{ %>
+        <div class="each" style="border: 3px solid white">
+            
+        <img src="<%= Restaurant.url %>" width='200px' height='200px'/>
+       <h1> 
+        <%=Restaurant.Name%>
+    </h1>
+        <p><%=Restaurant.Status%></p>
+        <% 
+        if(locals.OnlineRestr){  %>
+            <button style="background-color: orange; font-size:30px;" ><a href="/foodMenu/<%= Restaurant.Name %>" style="color: green; text-decoration:none;">Click to get Food Menu</a></button>
+
+        <% } %>
+       
+
+        </div>
+<% }) %>
+    </div>
+    <div class="profile" style=" background-color:orange;flex:1; display:flex; flex-direction:column;justify-content:start; align-items:center; height:350px; ">
+        <img src="https://thumbs.dreamstime.com/b/user-vector-icon-filled-flat-sign-mobile-concept-web-design-profile-simple-solid-symbol-logo-illustration-pixel-perfect-115941502.jpg" width='50px' onclick="showProfile()">
+        <div style="width:50px;">
+            <p>About me</p>
+            <hr>
+            <p><a href="/hist" style="text-decoration: none;">History</a></p>
+            <hr>
+            <p><a href="/delivery" style="text-decoration: none;">Order status</a></p>
+            <hr>
+            <p>Log Out</p>
+        </div>
+    </div>
+   </div>
+    <% if(!(locals.OnlineRestr)){  %>
+    <button class="OnlineRstr"  ><a href="/OnlineRestaurants" style="color: white; text-decoration:none">Show Online Restaurants</a></button>
+    <% }} else{ %>
+        <div style="background:linear-gradient(to bottom, orange, white); display:flex;flex-direction:column;align-items:center;justify-content:center;justify-items:start">
+        <% foodmenu.map(item=>{%>
+        <div style="display: flex; gap:10px; align-items:center;">
+        
+        <input type="checkbox" name="item" value="<%= [item.item,item.Cost]%> " id="<%= item.item %>"/>
+        <label for="<%= item.item %>"><%= item.item %></label> 
+        <p>
+            <%= item.Cost %>Rs
+        </p>
+    </div>
+
+
+        <% })%>
+   <button onclick="checkedValues()" style="width:100px; background-color:green;">Order</button>
+
+
+</div>
+   <% }} %>
+   <div id="orderplc" style="text-align:center;">
+    
+   </div>
+   <script>
+
+
+   
+    function checkedValues(){
+    const checked=document.querySelectorAll('input[name="item"]:checked')
+    const date=new Date() 
+    const timeNow=`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    
+    const ord_items=Array.from(checked).map(checkedBox=>`${checkedBox.value},${timeNow} **`)
+    console.log(ord_items)
+    const food_items=[]
+    const items_cost=[]
+    ord_items.forEach(ord_item=>{
+        food_items.push(ord_item.split(',')[0])
+        items_cost.push(JSON.parse(ord_item.split(',')[1]))
+    })
+    fetch('/history',{method:"POST", headers:{'Content-Type':'application/json'},body:JSON.stringify({items:ord_items})})
+    document.getElementById("orderplc").style='display:flex;flex-direction:column;justify-content:center; align-items:center;'
+    document.getElementById('orderplc').innerHTML=`you opted for <h2>${food_items}</h2> and the total cost is ${
+        items_cost.reduce((acc,i)=>acc+i)
+    } `
+    const butEle=document.createElement('button')
+    butEle.style='background:linear-gradient(to right, yellow, white)'
+    const anc_ele=document.createElement('a')
+    anc_ele.href='/placeOrder'
+    anc_ele.innerHTML=`Proceed to pay`
+    anc_ele.style='text-decoration:none;'
+    butEle.appendChild(anc_ele)
+    
+    document.getElementById("orderplc").appendChild(butEle)
+
+    
+    }
+
+    
+   </script> 
+
+
+
+</body>
+</html>

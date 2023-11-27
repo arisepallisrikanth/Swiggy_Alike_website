@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-color:#ccff00;">
+    <% if(locals.Restaurants) {%>
+    <div class="Restaurants" >
+        <% Restaurants.map(Restaurant=>{ %>
+           <div class="each" style="border: 3px solid white">
+               
+           <img src="<%= Restaurant.url %>" width=200px height=200px/>
+          <h1>
+           <%=Restaurant.Name%>
+       </h1>
+       <h2 style="color: rgb(255, 0, 162);"><%=Restaurant.Status%></h2>
+       <form method="POST" action="/editStatus/<%= Restaurant.Name %>">
+       <div> <input type="radio" name="editStatus" value="Online"/><label>Online</label></div>
+       <div> <input type="radio" name="editStatus" value="Offline"/> <label>Offline</label></div>
+
+        <button type="submit">Edit Status</button>
+       </form>
+          
+        <button style="background-color: orange; font-size:30px;" ><a href="/editFoodMenu/<%= Restaurant.Name %>" style="color: green; text-decoration:none;">Click to get Food Menu</a></button>
+   
+           
+          
+   
+           </div>
+   <% }) %>
+       </div>
+       <% } %>
+<!-- ************* -->
+       <% if(locals.foodmenu){ %>
+        <h1 style="color: blue; display:flex;align-items:center;justify-content:center;"><%= restr %></h1>
+        <div style="background-color: pink; display:flex;flex-direction:column;align-items:center;">
+        <%  foodmenu.map(item=>{%>
+            <h2><%= item.item  %> <%= item.Cost  %></h2>
+
+
+        <%}) %>
+        <div style="display: flex;flex-direction:column;align-items:start;">
+        <form method="POST" action="/createMenu/<%= restr %>">
+            <input type="text" name="item" value=""/>
+            <input type="text" name="Cost" value=""/>
+            <button type="submit">Add item</button>
+        </form>
+        <form method="POST" action="/deleteFoodItem/<%= restr %>">
+            <input type="text" name="item" value=""/>
+            <button type="submit">Delete item</button>
+        </form>
+    </div>
+    </div>
+        
+        <% } %>
+   
+</body>
+</html>

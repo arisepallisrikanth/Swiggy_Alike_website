@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;margin:0;padding:0;border:0;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="height:100%; background-color:#00bbee; margin:0;padding:0;border:0;">
+   <% 
+   if(locals.history){  %>
+    <%if(locals.history_ele.length){  
+
+        
+    
+   history_ele.slice(0,history_ele.length-1).map(ele=>{ %>
+        <div style="display: flex; justify-content:space-between;background-color:orange;border:2px solid white ;">
+            <div>
+            <h1 style="color: indigo;">
+                <%= ele.split(',')[0]%>
+            </h1>
+            <h2 style="color:brown;">
+                <%= ele.split(',')[1] %>rupees
+            </h2>
+        </div>
+            <p style="display: flex; align-items:center;color:white; ">
+                <%= ele.split(',')[2]%>
+            </p>
+        </div>
+    <% }) }else{%>
+        <h1>Not ordered yet anything Buddy,Order and taste delicious items!</h1>
+
+
+   <%  } }else{ 
+        if(locals.adminUpdate){
+        %>
+        <div style="height:100vh; display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <% history_ele.slice(0,history_ele.length-1).map(ele=>{%>
+        
+       
+        <% status.forEach(object=>{%>
+            <%if(Object.keys(object)[0]===ele){  %>
+            <div>      
+                <h1>
+                    <%= ele %>
+                </h1>
+        
+                <div style="background-color:red;display:flex;flex-direction:column;justify-content:center;align-items:center;width:80%;border-radius:50%;">
+                    <div style="background-color: #ff00ff;">
+                        <input type="radio" name="<%= ele %> " value="Order placed" <%= object[Object.keys(object)[0]]==="Order placed"?'checked':'' %>/><label style="font-size:large;">Order placed</label>
+                        <input type="radio" name="<%= ele %> " value="In Kitchen" <%= object[Object.keys(object)[0]]==="In Kitchen"?'checked':'' %>/><label style="font-size:large;">In Kitchen</label>
+                        <input type="radio" name="<%= ele %> " value="On the way" <%= object[Object.keys(object)[0]]==="On the way"?'checked':'' %>/><label style="font-size:large;">On the way</label>
+                        <input type="radio" name="<%= ele %> " value="delivered" <%= object[Object.keys(object)[0]]==='delivered'?'checked':'' %>/><label style="font-size:large;">delivered</label>
+                    </div>
+                <h1 style="color:#00bbee;">
+                    <%=  object[Object.keys(object)[0]] %>
+        
+                </h1>
+              
+            </div>
+        </div>
+        <% 
+
+        }
+       }
+     
+        
+        
+   ) })}else{%>
+    <h1>It looks like you did not order anything.If you ordered anything,wait few minutes, admin will update soon</h1>
+
+   
+        <% }}%>
+    
+
+
+
+        
+</body>
+</html>

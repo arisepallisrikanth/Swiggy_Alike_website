@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background: linear-gradient(to left, white,green);">
+ 
+    <%deliveryOrders.map(deliveryOrder=>{ %>
+        <h1 style="color:blue;"><%= deliveryOrder%></h1>
+        <label><h1>Click on present Status</h1></label>
+
+        <form method="POST" action="/deliveryAdmin">
+       
+        <div><input type="radio" name="<%= deliveryOrder%>" value="Order placed" /><label style="font-size:large;">Order placed</label></div>
+        <div><input type="radio" name="<%= deliveryOrder%>" value="In Kitchen" /><label style="font-size:large;">In Kitchen</label></div>
+        <div><input type="radio" name="<%= deliveryOrder%>" value="On the way" /><label style="font-size:large;">On the way</label></div>
+        <div><input type="radio" name="<%= deliveryOrder%>" value="delivered" /><label style="font-size:large;">delivered</label></div>
+    
+         <button type="submit">Update</button>
+        </form>
+    <% }) %> 
+   
+</body>
+</html>

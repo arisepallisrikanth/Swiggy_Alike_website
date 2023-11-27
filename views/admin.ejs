@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="background-color: aqua;"> 
+    <% if(locals.Restaurants){ %>
+    <div class='container' >
+        <div class="Restaurants" >
+         <% Restaurants.map(Restaurant=>{ %>
+            <div class="each" style="border: 3px solid white">
+                
+            <img src="<%= Restaurant.url %>" width=200px height=200px/>
+           <h1>
+            <%=Restaurant.Name%>
+        </h1>  
+            <p><%=Restaurant.Status%></p>
+            <button><a href="/deleteRestr/<%=Restaurant.Name %>">Delete</a></button>
+           
+    
+            </div>
+    <% }) %>
+    <button ><a href="/newRestr">Add new Restaurant</a></button>
+        </div>
+       </div>
+    <%}if(locals.create){  %>
+        <h1>Add new Restaurant</h1>
+        <form method="POST" action="/newRestr">
+        <div><label>Name</label><input type="text" name="Name" value=""></div>
+        <div><label>Status</label><input type="text" name="Status" value=""></div>
+        <div><label>url</label><input type="text" name="url" value=""></div>
+
+        <div><button type="submit">Add</button></div>
+    </form>
+
+   <% } %> 
+</div>
+    
+</body>
+</html>
+
+
